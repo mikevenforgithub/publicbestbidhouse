@@ -1,0 +1,24 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+
+    {% for Name in watchlist %}
+
+    <ul>
+        <li><a href=/{{Name}}>{{Name}}</a></li>
+    </ul>
+    
+    <form method="post" action="delete/{{Name}}" >
+        {% csrf_token %}
+      <button type="submit" class="btn btn-primary">Delete from Watchlist</button>
+      </form>
+    <br>
+    <hr>
+    {% endfor %}
+
+{% endblock %}
+

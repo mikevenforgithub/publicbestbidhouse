@@ -1,0 +1,16 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+  <h2>The listings for {{category}} category</h2>
+  <hr>
+  {% for listing in listings %}
+  <ul>
+    <li> 
+      <a href=/{{listing}}>{{listing.Name}} , Starting Bid at {{listing.Starting_Bid}}</a>
+    </li>
+</ul>        
+<hr>
+  {% endfor %}    
+
+{% endblock %}

@@ -1,0 +1,148 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+{% if listing.closed == False %}
+    <div>
+    {% if listing.image %}
+     <img src="{{listing.image.url}}">
+    {% else %}
+    THIS LISTING HAS NO IMAGE 
+    {% endif %}
+    <br>
+     Listing:  
+     {{listing.Name}} 
+    <br>
+    Starting Bid at: 
+    ${{listing.Starting_Bid}}
+    <br>
+    Description: 
+    {{listing.Description}}
+    </div> 
+    Listed by :
+    {{listing.Listed_by}}
+    </div> 
+    <br>
+    <hr>
+    Current Bid of: 
+    ${{currentbid.Bid_Price}}
+    <br>
+    Bid by :
+    {{currentbid.bid_by}}
+    <br>
+    <hr>
+    {% if user.is_authenticated %}
+      Place a new bid!!
+      <br>
+      {{Message}}
+      <form method="post" action={{Name}}>
+        {% csrf_token %}
+         {{form}}
+         <input type="submit" name="submit">
+      </form> 
+    {% endif %}  
+    <br>
+    <hr>
+    Comments:
+    <hr>
+    <br>
+    {% for comment in comments %}
+    <ul>
+      <li>
+        {{comment.comment}} 
+        <br>
+        comment by :{{comment.comment_by}} 
+        <br>
+        on the : {{comment.Date_of_Comment}}     
+        <hr>   
+        <br>
+      </li>
+    </ul>
+    {% endfor %}
+    {% if user.is_authenticated %}
+    <br>
+    <form method="post" action="/comment/{{Name}}" >
+      {% csrf_token %}
+      {{formc}}
+      <input type="submit" name="submit">
+    </form>
+    <br>
+    <hr>
+    <br>
+    or
+    <hr>
+    <br>
+    <form method="post" action="/addwatch/{{Name}}" >
+      {% csrf_token %}
+    <button type="submit" class="btn btn-primary">Add to Watchlist</button>
+    </form>
+    <hr>
+    <br>
+    <form method="post" action="delete/{{Name}}" >
+      {% csrf_token %}
+    <button type="submit" class="btn btn-primary">Delete from Watchlist</button>
+    </form>
+    {% endif %}
+
+    {% if request.user == listing.Listed_by %}
+    <form method="post" action="/closelisting/{{Name}}" >
+      {% csrf_token %}
+    <button type="submit" class="btn btn-primary">CLOSE THIS LISTING</button>
+    </form>
+
+    {% endif %}
+
+{% else %}
+
+  {% if listing.image %}
+  <img src="{{listing.image.url}}">
+  {% endif %}
+  <div>
+  <br>
+  THIS LISTING HAS BEEN CLOSED
+  <br>
+  <div>
+    Listing:  
+    {{listing.Name}} 
+  <br>
+  Description: 
+  {{listing.Description}}
+  </div> 
+  Listed by :
+  {{listing.Listed_by}}
+  </div> 
+  <br>
+  {% if user.username == currentbid.bid_by %}
+  YOU ARE THE WINNER OF THIS LISTING !
+  {% else %}
+  THE WINNER OF THIS LISTING IS: 
+  {{currentbid.bid_by}}
+  {% endif %}
+  <br>
+  SOLD AT:
+  ${{currentbid.Bid_Price}}
+  <br>
+  <hr>
+  Comments: 
+  {% for comment in comments %}
+  <ul>
+      <li> 
+        {{comment.comment}}  comment by :{{comment.comment_by}} on the : {{comment.Date_of_Comment}}
+      </li>
+  </ul>        
+  <hr>   
+  <br>
+  {% endfor %}
+  <br>
+  <form method="post" action="/comment/{{Name}}" >
+    {% csrf_token %}
+    {{formc}}
+    <input type="submit" name="submit">
+  </form>
+  <br>
+  <hr>
+  <br>
+
+{% endif %}
+    
+        
+{% endblock %}

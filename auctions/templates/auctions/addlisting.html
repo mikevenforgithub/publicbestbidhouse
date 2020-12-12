@@ -1,0 +1,17 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+
+
+<form method="post" action="{% url 'addlisting' %}" enctype="multipart/form-data">
+  {% csrf_token %}
+   {{form}}
+   <input type="submit" name="submit">
+</form> 
+
+ 
+{% endblock %}
