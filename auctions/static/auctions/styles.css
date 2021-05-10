@@ -2,3 +2,182 @@ body {
     padding: 10px;
 }
 
+#objectscontainer{
+   min-width: 580px;
+   max-width: 1100px;
+   height: 100%;
+   border-right: thin solid grey;
+   border-left: thin solid grey;
+   height: 100%;
+   padding: 10px;
+   padding-left: 35px;
+}
+
+
+#listingobj{
+    width: 500px;
+    height: fit-content;
+    display:inline-flex;
+    margin: 6px 6px 6px 6px;
+    border: black;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 25px;
+    position: relative;
+}
+
+#listingimage{
+    width: 150px;
+    height: 150px;
+}
+
+#listingname{
+    width:100%;
+    height: fit-content;
+    background-color: blanchedalmond;
+    
+}
+
+#listingstartbid{
+    
+    position: absolute;
+    right: 30px;
+
+}
+
+
+#listingdescrpt{
+    margin-top: 35px;
+    margin-left: 185px;
+    position: absolute;
+}
+
+#categoriessection{
+    
+    width:100%;
+    height:100%;
+}
+
+#addlistingform{
+    
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    border-color: black;
+    border-width: 2px;
+    border-style: solid;
+    width:500px;
+    height:550px;
+    display: flex;
+    align-items: center;
+    
+    
+
+}
+
+#addlistingform * {
+    
+    display: flex;
+    flex-direction: column;
+    vertical-align: middle;
+    overflow: hidden;
+    float: left;
+    padding: 5px;  
+    padding-top: 10px;
+    margin-left: 0px;  
+    position: relative;
+
+}
+
+#addlistbut{
+    margin-top: 20px;
+    background-image:linear-gradient(to bottom right,  seashell, rgb(142, 162, 10) 40%, seashell);
+    width: 50px;
+    
+}
+
+#closed{
+    
+    margin-right: 120px;
+    transform: rotate(-30deg);
+    margin-top: 60px;
+    font-family: Stencil Std, fantasy;
+
+}
+
+#maindetails{
+    
+    width: 100%;
+    height: 400px;
+    display: flex;
+    flex-direction: row;
+}
+
+
+
+#currentbid{
+  
+}
+
+#bidby{
+    
+}
+
+#listimagef{
+    position: relative;
+    display: inline-block;
+    background-color: indigo;
+    width: 100%;
+    height: 100%;
+    
+
+}
+#listimageno{
+    display: inline-block;
+    background-color: indigo;
+
+}
+#listimage{
+    display: inline-block;
+    background-color: indigo;
+    width: 400px;
+
+}
+
+#secondmain{
+    width: 30vh;
+    position: relative;
+    display: inline-block;
+    
+    padding: 4px;
+}
+
+#thirdmain{
+    width: 30vh;
+    position: relative;
+    display: inline-block;
+    
+    padding: 4px;
+}
+
+#lowerlisting{
+    width:100%;
+    height:100%;
+    
+
+}
+#commentsection{
+   
+    width: 80vh;
+    float: left;
+}
+
+#watchandclose{
+    
+    width:fit-content;
+    float: left;
+    margin-left: 40px;
+}
+
+#logo{
+    width: 300px;
+    height:300px;
+}

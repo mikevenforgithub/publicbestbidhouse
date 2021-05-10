@@ -4,13 +4,35 @@
 
   <h2>The listings for {{category}} category</h2>
   <hr>
-  {% for listing in listings %}
-  <ul>
-    <li> 
-      <a href=/{{listing}}>{{listing.Name}} , Starting Bid at {{listing.Starting_Bid}}</a>
-    </li>
-</ul>        
-<hr>
-  {% endfor %}    
+    <div id="objectscontainer">
+
+      {% for listing in listings %}
+
+          <div id="listingobj" style="overflow:hidden;">
+
+            {% if listing.image %}
+            <img id="listingimage" src="{{listing.image.url}}">
+            {% else %}
+            THIS LISTING HAS NO IMAGE 
+            {% endif %}
+            <br>
+            <div id="listingname">   
+             <a href=/{{listing}}>{{listing.Name}}</a>
+            </div> 
+            <br>
+            <div id="listingstartbid">Starting Bid at {{listing.Starting_Bid}}</div>
+            <br>
+            <div id="listingdescrpt">Description:{{listing.Description}}</div>
+            {% if listing.closed == True %}
+            <h2 id="closed" style=" color: red;">CLOSED</h2>
+            {% endif %}
+          </div>
+
+      {% endfor %} 
+      {% if l  == 0 %}
+      <h2>No active listings for this category</h3>
+      {% endif %}
+
+    </div>   
 
 {% endblock %}

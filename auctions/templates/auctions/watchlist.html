@@ -5,6 +5,8 @@
 {% endblock %}
 
 {% block body %}
+    
+    <h2>This is Your Watchlist!</h2>    
 
     {% for Name in watchlist %}
 
@@ -19,6 +21,9 @@
     <br>
     <hr>
     {% endfor %}
+    {% if l  == 0 %}
+      <h3>Your watchlist is empty</h3>
+      {% endif %}
 
 {% endblock %}
 

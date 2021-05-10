@@ -5,6 +5,7 @@ from .models import Bids
 from .models import Categories
 from .models import Comment
 from .models import Watchlist
+from .models import Logo
 
 # Register your models here.
 admin.site.register(Listing)
@@ -12,4 +13,5 @@ admin.site.register(Bids)
 admin.site.register(Categories)
 admin.site.register(Comment)
 admin.site.register(Watchlist)
+admin.site.register(Logo)
 

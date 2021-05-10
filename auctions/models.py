@@ -51,6 +51,10 @@ class Watchlist(models.Model):
     def __str__(self):
         return f"{self.listings.Name}"
 
-    
+class Logo(models.Model):
+    name = models.CharField(max_length=150)
+    logo = models.FileField(upload_to='media/images')
 
+    def __str__(self):
+        return f"{self.name}"
 

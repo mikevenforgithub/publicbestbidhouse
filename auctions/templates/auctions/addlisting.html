@@ -6,12 +6,13 @@
 
 {% block body %}
 
-
-<form method="post" action="{% url 'addlisting' %}" enctype="multipart/form-data">
-  {% csrf_token %}
-   {{form}}
-   <input type="submit" name="submit">
-</form> 
-
+<h3>Add Your own Listing and wait for an Offer!</h3>
+<div id="addlistingform">
+  <form method="post" action="{% url 'addlisting' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form}}
+    <input id="addlistbut" type="submit" name="submit">
+  </form> 
+</div>
  
 {% endblock %}

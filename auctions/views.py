@@ -10,6 +10,7 @@ from .models import Bids
 from .models import Categories
 from .models import Comment
 from .models import Watchlist
+from .models import Logo
 from .forms import AddListing
 from .forms import AddComment
 from .forms import AddBids
@@ -17,12 +18,17 @@ from .forms import Addtowatchlist
 from .forms import CloseListing
 
 def index(request):
+
+    l = Logo.objects.filter(name="bbb").first()
     return render(request, "auctions/index.html", {
-    "listings": Listing.objects.all()
+    "listings": Listing.objects.all(),
+    "categories": Categories.objects.all(),
+    "logo": l.logo
     })
 
 
 def login_view(request):
+    l = Logo.objects.filter(name="bbb").first()
     if request.method == "POST":
 
         # Attempt to sign user in
@@ -39,15 +45,19 @@ def login_view(request):
                 "message": "Invalid username and/or password."
             })
     else:
-        return render(request, "auctions/login.html")
+        return render(request, "auctions/login.html",{
+            "logo": l.logo
+        })
 
 
 def logout_view(request):
+    
     logout(request)
     return HttpResponseRedirect(reverse("index"))
 
 
 def register(request):
+    l = Logo.objects.filter(name="bbb").first()
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
@@ -71,10 +81,13 @@ def register(request):
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
     else:
-        return render(request, "auctions/register.html")
+        return render(request, "auctions/register.html",{
+            "logo": l.logo
+        })
 
 
 def addlisting(request):
+    l = Logo.objects.filter(name="bbb").first()
     form = AddListing()
     if request.method == "POST":
         form = AddListing(request.POST, request.FILES)
@@ -83,30 +96,42 @@ def addlisting(request):
             newlist.Listed_by = request.user
             newlist.save()
             return render(request, "auctions/index.html", {
-                "listings": Listing.objects.all()
+                "listings": Listing.objects.all(),
+                "categories": Categories.objects.all(),
+                "logo": l.logo
                 })
     else:
         return render(request, "auctions/addlisting.html", {
-            'form':form
+            'form':form,
+            "categories": Categories.objects.all(),
+            "logo": l.logo
             })
     
 
 def categories(request):
+    l = Logo.objects.filter(name="bbb").first()
     return render(request, "auctions/categories.html", {
-    "categories": Categories.objects.all()
+    "categories": Categories.objects.all(),
+    "logo": l.logo
     })
 
 def catsearch(request, category):
+    l = Logo.objects.filter(name="bbb").first()
     catx = Categories.objects.filter(Type_of_Category=category).first()
     cat_v = catx.id
     listx = Listing.objects.filter(Category_of_Listing=cat_v)
+    li = len(listx)
     return render(request,"auctions/catsearch.html",{
         "listings":listx,
-        "category":category     
+        "category":category, 
+        "categories": Categories.objects.all(),   
+        "l": li,
+        "logo": l.logo
     })
 
 
 def listing(request, Name):
+    l = Logo.objects.filter(name="bbb").first()
     listing = Listing.objects.filter(Name=Name).first()
     comf = Comment.objects.filter(listing=Name)
     bids = Bids.objects.filter(Bid_on=Name).all()
@@ -126,12 +151,16 @@ def listing(request, Name):
                 if highestbid is None: 
                     newbid.save()
                     return render(request, "auctions/index.html", {
-                    "listings": Listing.objects.all()
+                    "listings": Listing.objects.all(),
+                    "categories": Categories.objects.all(),
+                    "logo": l.logo
                     })
                 elif int(str(newbid.Bid_Price)) >= int(str(highestbid.Bid_Price)): 
                         newbid.save()
                         return render(request, "auctions/index.html", {
-                        "listings": Listing.objects.all()
+                        "listings": Listing.objects.all(),
+                        "categories": Categories.objects.all(),
+                        "logo": l.logo
                         })
                 else:
                     return render(request, "auctions/listing.html", {
@@ -142,7 +171,9 @@ def listing(request, Name):
                             "form":form,
                             "Message": "Your Bid is too low !",
                             "watchlist":watchlist,
-                            "formc" : formc
+                            "formc" : formc,
+                            "categories": Categories.objects.all(),  
+                            "logo": l.logo
                             })
             else:
                 return render(request, "auctions/listing.html", {
@@ -153,7 +184,9 @@ def listing(request, Name):
                         "form":form,
                         "Message": "Your Bid is too low !",
                         "watchlist":watchlist,
-                        "formc" : formc
+                        "formc" : formc,
+                        "categories": Categories.objects.all(),  
+                        "logo": l.logo
                         })
     else:
         return render(request, "auctions/listing.html", {
@@ -164,10 +197,13 @@ def listing(request, Name):
         "form":form,
         "user":user,
         "watchlist":watchlist,
-        "formc" : formc
+        "formc" : formc,
+        "categories": Categories.objects.all(),
+        "logo": l.logo  
         })
  
 def comment(request, Name):
+    l = Logo.objects.filter(name="bbb").first()
     form = AddComment()
     if request.method == "POST":
         form = AddComment(request.POST)
@@ -177,12 +213,16 @@ def comment(request, Name):
             newcomment.listing = Name
             newcomment.save()
             return render (request, "auctions/index.html", {
-                "listings": Listing.objects.all()
+                "listings": Listing.objects.all(),
+                "categories": Categories.objects.all(),
+                "logo": l.logo
                 })
 
     else:
         return render(request, "auctions/comment.html", {
-            'form':form
+            'form':form,
+            "categories": Categories.objects.all(),
+            "logo": l.logo
             })
 
 
@@ -192,15 +232,21 @@ def error(request):
 
 
 def watchlist(request):
+    l = Logo.objects.filter(name="bbb").first()
     user = request.user.username
     usercur = User.objects.filter(username=user).first()
     watchlist = Watchlist.objects.filter(ofuser=usercur.id)
+    li = len(watchlist)
     return render (request, "auctions/watchlist.html",{
-        "watchlist": watchlist
+        "watchlist": watchlist,
+        "categories": Categories.objects.all(),
+        "l":li,
+        "logo": l.logo
 
     })
 
 def removefromwatchlist(request, Name):
+    l = Logo.objects.filter(name="bbb").first()
     if request.method == "POST":
         form = Addtowatchlist(request.POST)
         if form.is_valid():
@@ -209,11 +255,14 @@ def removefromwatchlist(request, Name):
             item = Listing.objects.filter(Name=Name).first()
             userwatchitemdel = Watchlist.objects.filter(ofuser=usercur, listings=item).delete()
             return render (request, "auctions/index.html", {
-                        "listings": Listing.objects.all()
+                        "listings": Listing.objects.all(),
+                        "categories": Categories.objects.all(),
+                        "logo": l.logo
                         })
 
 
 def addwatchlist(request, Name):
+    l = Logo.objects.filter(name="bbb").first()
     if request.method == "POST":
         form = Addtowatchlist(request.POST)
         if form.is_valid():
@@ -224,15 +273,20 @@ def addwatchlist(request, Name):
             if liss.Name not in watch:
                 newwatch = Watchlist.objects.create(ofuser=usercur,listings=liss)
                 return render (request, "auctions/index.html", {
-                        "listings": Listing.objects.all()
+                        "listings": Listing.objects.all(),
+                        "categories": Categories.objects.all(),
+                        "logo": l.logo
                         })  
             if liss.Name in watch:
                 return render (request, "auctions/watchlist.html",{
-                    "watchlist": watch
+                    "watchlist": watch,
+                    "categories": Categories.objects.all(),
+                    "logo": l.logo
                 })  
 
 
 def closelisting(request, Name):
+    l = Logo.objects.filter(name="bbb").first()
     if request.method == "POST":
         form = CloseListing(request.POST)
         if form.is_valid():
@@ -240,5 +294,7 @@ def closelisting(request, Name):
             liss.closed = True
             liss.save()
             return render(request, "auctions/index.html", {
-                "listings": Listing.objects.all()
+                "listings": Listing.objects.all(),
+                "categories": Categories.objects.all(),
+                "logo": l.logo
                 })
